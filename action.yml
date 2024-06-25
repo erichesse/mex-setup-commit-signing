@@ -5,6 +5,7 @@ runs:
   using: "composite"
   steps:
     - name: configure-git
+      shell: bash
       run: |
         eval "$(ssh-agent -s)"
         install --directory ~/.ssh --mode 700
