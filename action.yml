@@ -5,14 +5,11 @@ runs:
   using: "composite"
   steps:
     - name: configure-git
-      env:
-        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-        SIGNING_PUB: ${{ secrets.SIGNING_PUB }}
       run: |
         eval "$(ssh-agent -s)"
         install --directory ~/.ssh --mode 700
-        base64 -d <<< '${{ secrets.SIGNING_KEY }}' > ~/.ssh/mex
-        base64 -d <<< '${{ secrets.SIGNING_PUB }}' > ~/.ssh/mex.pub
+        base64 -d <<< "$SIGNING_KEY" > ~/.ssh/mex
+        base64 -d <<< "$SIGNING_PUB" > ~/.ssh/mex.pub
         chmod 600 ~/.ssh/*
         ssh-add ~/.ssh/mex
         git config --local user.email ${{ vars.MEX_BOT_EMAIL }}
